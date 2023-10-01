@@ -1,6 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState, useRef,useContext } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
-// import AuthContext from '../../authCtx/auth-context';
+import AuthContext from '../store/auth-context';
 import { useHistory } from 'react-router-dom';
 const Login = () => {
     const [isLogin, setIsLogin] = useState(false);
@@ -9,7 +9,7 @@ const Login = () => {
 
     const history = useHistory();
 
-    // const authCtx = useContext(AuthContext);
+     const authCtx = useContext(AuthContext);
 
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -38,10 +38,10 @@ const Login = () => {
 
         let url;
         if (isLogin) {
-            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAgGnMLqkFKJf5KduGtLESSQoaaEzpd4sM';
+            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAkBtS8XqPnFWiHAs2Qlb62O_oFyK1aj6Y';
 
         } else {
-            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAgGnMLqkFKJf5KduGtLESSQoaaEzpd4sM';
+            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAkBtS8XqPnFWiHAs2Qlb62O_oFyK1aj6Y';
         }
 
         try {
@@ -72,9 +72,9 @@ const Login = () => {
             const email = data.email;
             const token = data.idToken;
             const endpoint = `${email.replace(/\.|@/g, "")}`;
-            console.log(token,endpoint);
+            authCtx.login(token, endpoint);
             // authCtx.login(token, endpoint);
-            history.replace('/products');
+            history.replace('/products')
         } catch (err) {
             alert(err.message);
         } finally {
