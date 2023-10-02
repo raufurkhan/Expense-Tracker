@@ -14,7 +14,7 @@ const Profile = () => {
     // const ctx = useContext(AuthContext);
     const token = localStorage.getItem('token');
 
-    console.log('token : ', token);
+    
 
     const handleUpdateButtonClick = async (e) => {
         e.preventDefault();
@@ -51,13 +51,16 @@ const Profile = () => {
             }
 
             const data = await response.json();
-            console.log(data);
+            
 
             setImageUrl(data.photoUrl)
 
         } catch (err) {
             alert(err.message);
         } finally {
+             // Save the updated imageUrl in local storage.
+             localStorage.setItem('imageUrl', imageUrl);
+             setImageUrl(imageUrl);
             setName(updatedName);
         }
 
@@ -74,19 +77,20 @@ const Profile = () => {
             }
         }).then((response) => {
             if (response.ok) {
-                console.log(response);
-                console.log('post to get')
+               
                 return response.json();
             }
             // throw new Error("Failed to fetch user data");
         }).then((data) => {
-            console.log('i m data', data)
+            
             const user = data.users[0];
             if (user) {
                 const imageUrl = user.photoUrl || ''
                 setImageUrl(imageUrl);
                 setName(user.displayName)
                 setEmail(user.email)
+                nameRef.current.value = user.displayName;
+                // imageRef.current.value=user.
             }
 
         }).catch(err => {
