@@ -94,7 +94,7 @@ const Profile = () => {
         })
     }, [])
 
-
+    
     return (
         <div className="my-5 pt-4">
             <h1 className="text-center">Welcome to your Profile ...!!!</h1>
@@ -137,6 +137,9 @@ const Profile = () => {
                             <div className='text-center my-1 mx-3 d-flex'>
                                 <strong>Email :</strong>
                                 <p>&nbsp;{email}</p>
+                                </div>
+                            <div className='text-center my-1 mx-3 d-flex'>
+                            <Button variant="success" type="submit" className='my-2 p-1 mr-2' onClick={verifyEmailHandler}>Verify Email</Button>
                             </div>
                         </Card>
                     </Col>
