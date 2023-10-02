@@ -94,7 +94,32 @@ const Profile = () => {
         })
     }, [])
 
-    
+    const verifyEmailHandler = async () => {
+        try {
+            const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAkBtS8XqPnFWiHAs2Qlb62O_oFyK1aj6Y', {
+                method: 'POST',
+                body: JSON.stringify({
+                    requestType: 'VERIFY_EMAIL',
+                    idToken: token
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Firebase-Locale': 'en' // Set the language to English
+                }
+            })
+            if (!response.ok) {
+                throw new Error('request failed');
+            }
+            const data = await response.json();
+            console.log(data);
+            alert('Code sent on email kindly check');
+            return data
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
     return (
         <div className="my-5 pt-4">
             <h1 className="text-center">Welcome to your Profile ...!!!</h1>
