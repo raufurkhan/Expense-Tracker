@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from 'react';
 import { Container, Form, Button, Card, Image, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 const Profile = () => {
-    const [imageUrl, setImageUrl] = useState('');
+    const [image, setImage] = useState('');
     const [name, setName] = useState('');
     const [email,setEmail]=useState('');
     const phone ='8822266900';
@@ -19,7 +19,14 @@ const Profile = () => {
     const handleUpdateButtonClick = async (e) => {
         e.preventDefault();
 
-        const imageUrl = URL.createObjectURL(imageRef.current.files[0])
+         // Check if a file was selected for image update
+         if (!imageRef.current.files || imageRef.current.files.length === 0) {
+            // No image selected, show alert
+            alert("No image selected for update.");
+            return;
+        }
+
+        const imageUrl = URL.createObjectURL(imageRef.current.files[0]);
 
         const updatedName = nameRef.current.value;
 
@@ -51,16 +58,17 @@ const Profile = () => {
             }
 
             const data = await response.json();
-            
+            console.log('after data ',data.photoUrl);
+            setImage(data.photoUrl);
 
-            setImageUrl(data.photoUrl)
+            // Show an alert for successful updates
+            window.alert("Profile updated successfully.");
 
         } catch (err) {
             alert(err.message);
         } finally {
              // Save the updated imageUrl in local storage.
-             localStorage.setItem('imageUrl', imageUrl);
-             setImageUrl(imageUrl);
+             
             setName(updatedName);
         }
 
@@ -80,23 +88,24 @@ const Profile = () => {
                
                 return response.json();
             }
-            // throw new Error("Failed to fetch user data");
+             throw new Error("Failed to fetch user data");
         }).then((data) => {
             
             const user = data.users[0];
             if (user) {
-                const imageUrl = user.photoUrl || ''
-                setImageUrl(imageUrl);
-                setName(user.displayName)
-                setEmail(user.email)
+                const image = user.photoUrl;
+
+                setName(user.displayName);
+                setEmail(user.email);
                 nameRef.current.value = user.displayName;
                 // imageRef.current.value=user.
+                setImage(image);
             }
 
         }).catch(err => {
             console.log(err)
         })
-    }, [])
+    }, [token])
 
     const verifyEmailHandler = async () => {
         try {
@@ -143,7 +152,7 @@ const Profile = () => {
                             <Image
                                 className='bg-light shadow rounded-circle p-2'
                                 style={{ height: '14rem', width: '14rem' }}
-                                src={imageUrl}
+                                src={image}
                                 roundedCircle
                             />
                         </div>
