@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../store/authSlice';
 import { toggleDarkMode } from '../store/darkModeSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
+import { faSun, faMoon,faHome,faWallet,faUser,faSignOut,faBars } from '@fortawesome/free-solid-svg-icons';
 
 const NavBar = () => {
     const dispatch = useDispatch();
@@ -54,21 +54,23 @@ function logoutHandler() {
   return (
     <React.Fragment>
       {isLoggedIn && <Navbar
-        bg="dark"
+         bg="primary"
         variant="dark"
-        expand="lg"
+        expand="md"
         className="fixed-top"
         style={{ zIndex: 1000 }}
         collapseOnSelect
         ref={navbarRef} // Attach the ref to the Navbar component
       >
              <Container fluid>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+             <Navbar.Toggle aria-controls="basic-navbar-nav" size="sm" >
+          <FontAwesomeIcon icon={faBars} />
+          </Navbar.Toggle>
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mx-auto">
               <Nav.Item className="mx-5">
                 <Nav.Link as={Link} to="/home" style={linkStyle}>
-                  Home
+                <FontAwesomeIcon icon={faHome} />
                 </Nav.Link>
               </Nav.Item>
               {/* {isLoggedIn && ( 
@@ -80,7 +82,12 @@ function logoutHandler() {
     )}  */}
               {isLoggedIn && (<Nav.Item className="mx-5">
                 <Nav.Link as={Link} to="/expenses" style={linkStyle}>
-                  Expenses
+                <FontAwesomeIcon icon={faWallet} />
+                </Nav.Link>
+              </Nav.Item>)}
+              {isLoggedIn && (<Nav.Item className="mx-5">
+                <Nav.Link as={Link} to="/profile" style={linkStyle}>
+                <FontAwesomeIcon icon={faUser} />
                 </Nav.Link>
               </Nav.Item>)}
               {!isLoggedIn && (
@@ -93,7 +100,7 @@ function logoutHandler() {
               {isLoggedIn && (
                 <Nav.Item className="mx-5">
                   <Nav.Link onClick={logoutHandler} style={linkStyle}>
-                    Logout
+                  <FontAwesomeIcon icon={faSignOut} />
                   </Nav.Link>
                 </Nav.Item>
               )}
@@ -101,17 +108,17 @@ function logoutHandler() {
           </Navbar.Collapse>
         </Container>
       </Navbar>}
-      <div className="position-fixed top-0 end-0 m-1" style={{ zIndex: 1000 }}>
+      {isLoggedIn && <div className="position-fixed top-0 end-0 m-1" style={{ zIndex: 1000 }}>
 
         <Button
                     variant="light"
                     onClick={toggleTheme}
-                    className="mt-1 p-1 mx-1 rounded btn-sm text-danger"
+                    className="mt-2 p-1 mx-2 rounded btn-sm text-danger"
                 >
-                    {isDarkMode ? <FontAwesomeIcon  icon={faSun} size="2x"/>:<FontAwesomeIcon icon={faMoon} size="2x"/>} 
+                     {isDarkMode ? <FontAwesomeIcon  icon={faSun} size="lg"/>:<FontAwesomeIcon icon={faMoon} size="lg"/>} 
                 </Button>
 
-      </div>
+      </div>}
     </React.Fragment>
   );
 };

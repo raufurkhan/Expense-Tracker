@@ -108,16 +108,16 @@ const toggleDarkModeHandler = () => {
     }
 
     return (
-        <Container
+        <div
             className={`d-flex justify-content-center align-items-center vh-100 ${isDarkMode ? 'bg-dark text-light' : 'bg-light text-dark'
                 }`}
         >
-            <div className={`signup-container p-4 shadow rounded ${isDarkMode ? 'bg-dark text-light' : 'bg-light text-dark'}`}>
+             <Container className={`mx-3 signup-container p-3 shadow rounded my-1 ${isDarkMode ? 'bg-dark text-light' : 'bg-light text-dark'}`}>
                 {/* ...Rest of your component code... */}
                 <Button
                     variant="primary"
                     onClick={toggleDarkModeHandler}
-                    className="mt-3 p-1 w-60 rounded btn-sm text-danger"
+                    className="mt-1 p-1 w-60 rounded btn-sm text-danger"
                 >
                     {isDarkMode ? <FontAwesomeIcon  icon={faSun} size="2x"/>:<FontAwesomeIcon icon={faMoon} size="2x"/>} 
                 </Button>
@@ -188,8 +188,8 @@ const toggleDarkModeHandler = () => {
                         </Button>
                     </div>
                 </Form>
-            </div>
-        </Container>
+                </Container>
+        </div>
     );
 };
 
